@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday Qinara</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Pacifico', cursive;
+      background: #cfe7fa; /* baby blue */
+      overflow: hidden;
+      position: relative;
+    }
+    .screen {
+      position: absolute;
+      width: 100%; height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      transition: opacity .5s;
+    }
+    .hidden { display: none; }
+    .start-btn, .submit-btn {
+      background: #ff8dbb;
+      color: white;
+      font-size: 1.8em;
+      border: none;
+      padding: 15px 35px;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      margin-top: 20px;
+      transition: .3s;
+    }
+    .start-btn:hover, .submit-btn:hover { background: #ff69a3; }
+    .input-answer {
+      font-size: 1.5em;
+      padding: 10px;
+      border: 2px solid #ff8dbb;
+      border-radius: 15px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 3.5em;
+      color: #ff3789;
+      margin: 0;
+      animation: zoom 1s ease-out, shimmer 2s infinite alternate;
+      text-shadow: 0 0 8px rgba(255,255,255,0.8);
+    }
+    .subtitle {
+      font-size: 1.5em;
+      color: #ff8dbb;
+      margin-top: 10px;
+    }
+    .confetti {
+      position: absolute;
+      width: 100%;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .heart {
+      position: absolute; width: 20px; height: 20px;
+      background: pink; transform: rotate(45deg);
+      animation: floatUp 2s ease-out forwards;
+      z-index: 10;
+    }
+    .heart::before, .heart::after {
+      content: ""; position:absolute; width:20px; height:20px;
+      background:pink; border-radius:50%;
+    }
+    .heart::before { top:-10px; left:0; }
+    .heart::after { left:-10px; top:0; }
+
+    @keyframes floatUp {
+      to { opacity: 0; transform: translate(-50%,-200%) scale(1.5); }
+    }
+    @keyframes zoom {
+      0% { transform: scale(2); opacity:0; }
+      100% { transform: scale(1); opacity:1; }
+    }
+    @keyframes shimmer {
+      from { text-shadow: 0 0 10px #ff9ecf, 0 0 20px #ffe4f2; }
+      to { text-shadow: 0 0 20px #ffffff, 0 0 30px #ff6fa3; }
+    }
+
+    .decor {
+      position: absolute; font-size:2em;
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-25px); }
+    }
+    .d1 { top:10%; left:8%; }
+    .d2 { top:12%; right:10%; }
+    .d3 { bottom:15%; left:12%; }
+    .d4 { bottom:10%; right:15%; }
+    .d5 { top:40%; left:50%; font-size:3em; }
+  </style>
+</head>
+<body onclick="showHearts(event)">
+
+<div class="screen" id="startScreen">
+  <div class="decor d1">🎈</div>
+  <div class="decor d2">🍭</div>
+  <div class="decor d3">🧁</div>
+  <div class="decor d4">🌟</div>
+  <div class="decor d5">🎉</div>
+  <button class="start-btn" onclick="showPuzzle()">START</button>
+</div>
+
+<div class="screen hidden" id="puzzleScreen">
+  <h1>1 + 1 = ...</h1>
+  <input type="text" id="answer" class="input-answer" placeholder="Jawaban kamu...">
+  <button class="submit-btn" onclick="checkAnswer()">Submit</button>
+</div>
+
+<div class="screen hidden" id="birthdayScreen">
+  <div class="confetti" id="confetti"></div>
+  <h1>🎉 Happy Birthday Nanay 🎉</h1>
+  <div class="subtitle">Qinara Adeeva Yasmin</div>
+  <div class="decor d1">🎈</div>
+  <div class="decor d2">🍭</div>
+  <div class="decor d3">🧁</div>
+  <div class="decor d4">🌟</div>
+  <div class="decor d5">🎉</div>
+</div>
+
+<audio id="audio" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5bfa6794fc.mp3?filename=happy-birthday-to-you-109276.mp3" autoplay loop></audio>
+
+<script>
+  function showPuzzle() {
+    startScreen.classList.add("hidden");
+    puzzleScreen.classList.remove("hidden");
+  }
+  function checkAnswer() {
+    if(answer.value.trim()==="2") {
+      puzzleScreen.classList.add("hidden");
+      birthdayScreen.classList.remove("hidden");
+      audio.play(); launchConfetti();
+    } else alert("Oops, coba lagi yaa 😉");
+  }
+  function showHearts(e) {
+    for(let i=0;i<8;i++){
+      let heart = document.createElement("div");
+      heart.className="heart";
+      heart.style.left=e.clientX-10+(Math.random()*40-20)+"px";
+      heart.style.top=e.clientY-10+(Math.random()*40-20)+"px";
+      document.body.appendChild(heart);
+      setTimeout(()=>heart.remove(),2000);
+    }
+  }
+  function launchConfetti(){
+    for(let i=0;i<100;i++){
+      const el=document.createElement("div");
+      el.innerText=["🎊","🎉","✨","💖","💫"][Math.floor(Math.random()*5)];
+      el.style.position="absolute";
+      el.style.left=Math.random()*100+"%";
+      el.style.top="-20px";
+      el.style.fontSize=(Math.random()*20+10)+"px";
+      el.style.animation=`drop ${Math.random()*5+2}s linear ${Math.random()}s forwards`;
+      confetti.appendChild(el);
+    }
+  }
+  const dropStyle=document.createElement("style");
+  dropStyle.innerHTML="@keyframes drop{to{transform:translateY(100vh);opacity:0}}";
+  document.head.appendChild(dropStyle);
+</script>
+
+</body>
+</html>
